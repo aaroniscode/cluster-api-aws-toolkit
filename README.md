@@ -53,3 +53,5 @@ clusterawsadm alpha bootstrap create-stack
 ```
 
 ## How to Use
+
+1. [Setup and Configure the Management Cluster](/v1alpha2/01-capa-controllers/README.md)
