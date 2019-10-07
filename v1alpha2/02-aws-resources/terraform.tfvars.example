@@ -1,0 +1,45 @@
+#
+# Default cluster name is capa. It is prepended to the name of all AWS cluster resources
+#
+# cluster_name = "capa"
+
+#
+# Replace with the name of a preexisting EC2 key pair
+#
+key_pair = "default"
+
+#
+# Advanced options below
+#
+
+#
+# Default is Single AZ
+#
+# private_subnet_numbers = {
+#   "a" = 0
+# }
+#
+# public_subnet_numbers = {
+#   "a" = 1
+# }
+
+#
+# Multi AZ example
+# private_subnet_numbers = {
+#   "a" = 0
+#   "b" = 1
+#   "c" = 2
+# }
+#
+# public_subnet_numbers = {
+#   "a" = 3
+#   "b" = 4
+#   "c" = 5
+# }
+
+#
+# Use only if you wish to use a custom domain suffix and/or custom DNS servers
+#
+# enable_custom_dhcp_options = true
+# domain_name = "example.com"
+# domain_name_servers = ["1.2.3.4"]
