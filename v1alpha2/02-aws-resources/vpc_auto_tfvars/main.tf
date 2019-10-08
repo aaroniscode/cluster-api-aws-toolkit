@@ -1,5 +1,5 @@
-resource "local_file" "k8s_tfvars" {
-  content  = templatefile("${path.module}/k8s.tfvars", {
+resource "local_file" "vpc_tfvars" {
+  content  = templatefile("${path.module}/vpc.tfvars", {
     cluster_name       = "${var.cluster_name}"
     key_pair           = "${var.key_pair}"
     private_subnet_ids = format("%#v", "${var.private_subnet_ids}"),
@@ -7,5 +7,5 @@ resource "local_file" "k8s_tfvars" {
     security_group_ids = format("%#v", "${var.security_group_ids}"),
     vpc_id             = "${var.vpc_id}"
   })
-  filename = "${path.root}/../03-k8s-manifests/k8s.auto.tfvars"
+  filename = "${path.root}/../03-capa-manifests/vpc.auto.tfvars"
 }

@@ -44,8 +44,8 @@ locals {
   )
 }
 
-module "k8s_auto_tfvars" {
-  source = "./k8s_auto_tfvars"
+module "vpc_auto_tfvars" {
+  source = "./vpc_auto_tfvars"
 
   cluster_name       = "${var.cluster_name}"
   key_pair           = "${var.key_pair}"
