@@ -23,7 +23,7 @@ metadata:
   name: ${cluster_name}-${node_name}
 spec:
   instanceType: ${controlplane_instance_type}
-  iamInstanceProfile: "controllers.cluster-api-provider-aws.sigs.k8s.io"
+  iamInstanceProfile: "control-plane.cluster-api-provider-aws.sigs.k8s.io"
   rootDeviceSize: ${root_device_size}
   sshKeyName: ${ec2_key_pair}
 ---

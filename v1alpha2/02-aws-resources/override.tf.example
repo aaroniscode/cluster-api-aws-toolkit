@@ -1,14 +1,14 @@
-# Comment out the 3 lines below to use the Amazon VPC CNI
-module "amazon_vpc_cni" {
-  source = "./amazon_vpc_cni_disabled"
-}
+# Uncomment out the 3 lines below if using the Amazon VPC CNI
+# module "amazon_vpc_cni" {
+#   source = "./amazon_vpc_cni"
+# }
 
-# Comment out the 3 lines below to use the AWS ALB Ingress Controller
-module "aws_alb_ingress" {
-  source = "./disabled"
-}
+# Uncomment out the 3 lines below to use the AWS ALB Ingress Controller
+# module "aws_alb_ingress" {
+#   source = "./aws_alb_ingress"
+# }
 
-# Comment out the 3 lines below to create VPC Endpoints for S3 and ECR
-module "vpc_endpoints" {
-  source = "./disabled"
-}
+# Uncomment out the 3 lines below to create VPC Endpoints for S3 and ECR
+# module "vpc_endpoints" {
+#   source = "./vpc_endpoints"
+# }

@@ -1,6 +1,5 @@
-variable "name" {
-  default = "k8s-amazon-vpc-cni"
-  description = "name of the IAM policy"
+variable "cluster_name" {
+  description = "name of the cluster, pre-pended to name of IAM policy and security group"
 }
 
 variable "vpc_id" {

@@ -4,3 +4,6 @@
 # An open issue for module count feature is expected in a future v.0.12 release
 # https://github.com/hashicorp/terraform/issues/953
 # https://www.hashicorp.com/blog/hashicorp-terraform-0-12-preview-for-and-for-each
+
+variable cluster_name {default=""}
+variable vpc_id {default=""}

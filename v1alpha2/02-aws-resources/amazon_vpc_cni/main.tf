@@ -1,16 +1,30 @@
+data "aws_iam_role" "control_plane" {
+  name = "control-plane.cluster-api-provider-aws.sigs.k8s.io"
+}
+
 data "aws_iam_role" "nodes" {
   name = "nodes.cluster-api-provider-aws.sigs.k8s.io"
 }
 
 data "aws_partition" "current" {}
 
-resource "aws_iam_role_policy_attachment" "attach" {
+locals {
+  policy_name = "${var.cluster_name}-amazon-vpc-cni"
+  sg_name     = "${var.cluster_name}-amazon-vpc-cni"
+}
+
+resource "aws_iam_role_policy_attachment" "control_plane" {
+  role       = "${data.aws_iam_role.control_plane.name}"
+  policy_arn = "${aws_iam_policy.policy.arn}"
+}
+
+resource "aws_iam_role_policy_attachment" "nodes" {
   role       = "${data.aws_iam_role.nodes.name}"
   policy_arn = "${aws_iam_policy.policy.arn}"
 }
 
 resource "aws_iam_policy" "policy" {
-  name        = "${var.name}"
+  name        = "${local.policy_name}"
   description = "The Amazon VPC CNI requires this IAM policy, used by Local IP Address Manager (L-IPAM)"
 
   policy = <<EOF
@@ -45,7 +59,7 @@ EOF
 }
 
 resource "aws_security_group" "sg" {
-  name   = "${var.name}"
+  name   = "${local.sg_name}"
   vpc_id = "${var.vpc_id}"
 
   ingress {
@@ -56,6 +70,6 @@ resource "aws_security_group" "sg" {
   }
 
   tags = {
-    Name = "${var.name}"
+    Name = "${local.sg_name}"
   }
 }
