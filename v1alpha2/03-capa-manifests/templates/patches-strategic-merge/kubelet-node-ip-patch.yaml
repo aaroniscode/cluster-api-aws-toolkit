@@ -1,0 +1,33 @@
+%{ for controlplane_node in controlplane_nodes ~}
+---
+apiVersion: bootstrap.cluster.x-k8s.io/v1alpha2
+kind: KubeadmConfig
+metadata:
+  name: ${cluster_name}-${controlplane_node}
+spec:
+%{ if controlplane_node == controlplane_nodes[0] ~}
+  initConfiguration:
+    nodeRegistration:
+      kubeletExtraArgs:
+        node-ip: '{{ ds.meta_data.local_ipv4 }}'
+%{ else ~}
+  joinConfiguration:
+    nodeRegistration:
+      kubeletExtraArgs:
+        node-ip: '{{ ds.meta_data.local_ipv4 }}'
+%{ endif ~}
+%{ endfor ~}
+%{ for worker_node, replicas in worker_nodes ~}
+---
+apiVersion: bootstrap.cluster.x-k8s.io/v1alpha2
+kind: KubeadmConfigTemplate
+metadata:
+  name: ${cluster_name}-${worker_node}
+spec:
+  template:
+    spec:
+      joinConfiguration:
+        nodeRegistration:
+          kubeletExtraArgs:
+            node-ip: '{{ ds.meta_data.local_ipv4 }}'
+%{ endfor ~}

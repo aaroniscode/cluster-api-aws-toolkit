@@ -1,0 +1,16 @@
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+vpc.auto.tfvars
+terraform.tfvars
+
+manifests/*
+patches-json6902/*
+patches-strategic-merge/*
+kustomization.yaml
+/get_kubeconfig.sh
+*.kubeconfig

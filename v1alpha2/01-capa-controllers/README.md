@@ -1,5 +1,5 @@
 # Step 1
-## Setup and Configure the Management Cluster
+## Setup the Management Cluster
 
 Start a `kind` cluster
 

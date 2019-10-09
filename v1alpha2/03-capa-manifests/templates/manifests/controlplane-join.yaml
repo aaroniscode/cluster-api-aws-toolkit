@@ -1,0 +1,40 @@
+apiVersion: cluster.x-k8s.io/v1alpha2
+kind: Machine
+metadata:
+  name: ${cluster_name}-${node_name}
+  labels:
+    cluster.x-k8s.io/control-plane: "true"
+    cluster.x-k8s.io/cluster-name: "${cluster_name}"
+spec:
+  version: "${k8s_version}"
+  bootstrap:
+    configRef:
+      apiVersion: bootstrap.cluster.x-k8s.io/v1alpha2
+      kind: KubeadmConfig
+      name: ${cluster_name}-${node_name}
+  infrastructureRef:
+    apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
+    kind: AWSMachine
+    name: ${cluster_name}-${node_name}
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
+kind: AWSMachine
+metadata:
+  name: ${cluster_name}-${node_name}
+spec:
+  instanceType: ${controlplane_instance_type}
+  iamInstanceProfile: "controllers.cluster-api-provider-aws.sigs.k8s.io"
+  rootDeviceSize: ${root_device_size}
+  sshKeyName: ${ec2_key_pair}
+---
+apiVersion: bootstrap.cluster.x-k8s.io/v1alpha2
+kind: KubeadmConfig
+metadata:
+  name: ${cluster_name}-${node_name}
+spec:
+  joinConfiguration:
+    nodeRegistration:
+      name: '{{ ds.meta_data.hostname }}'
+      kubeletExtraArgs:
+        cloud-provider: aws
+    controlPlane: {}

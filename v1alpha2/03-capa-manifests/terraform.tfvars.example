@@ -1,0 +1,77 @@
+#
+# Default is a single control plane node.
+#
+# controlplane_nodes = ["controlplane"]
+
+#
+# Default is a single MachineDeployment with 2 replicas.
+#
+# worker_nodes = {
+#  "worker" = 2,
+# }
+
+#
+# Default instance type is t3.large
+#
+# controlplane_instance_type = "t3.large"
+# worker_instance_type = "t3.large"
+
+#
+# HA Examples
+#
+
+#
+# HA Control Plane
+#
+# controlplane_nodes = [
+#   "controlplane-0",
+#   "controlplane-1",
+#   "controlplane-2",
+# ]
+
+#
+# Multi-AZ Worker nodes. Will deploy MachineDeployments across all available private subnets.
+#
+# worker_nodes = {
+#  "worker-a" = 2,
+#  "worker-b" = 2,
+#  "worker-c" = 2,
+# }
+
+
+#
+# Default K8s version is v1.15.3.
+#
+# k8s_version = "v1.15.3"
+
+#
+# If ami_id is not set, CAPA will search for the CAPA public Ubuntu 18.04 AMI matching `k8s_version`
+# Available CAPA public AMI's can be found in the link below:
+# https://github.com/kubernetes-sigs/cluster-api-provider-aws/blob/master/docs/amis.md
+#
+# Or build your own AMI using https://github.com/kubernetes-sigs/image-builder/tree/master/images/capi
+#
+# ami_id = "ami-1234567890abcdef0"
+#
+# NOTE: Kubernetes version should match the version on the AMI
+#
+
+#
+# Default Root Device Size is 20GB
+#
+# root_device_size = 20
+
+
+#
+# Advanced Settings
+#
+
+#
+# If using an existing VPC, uncomment and set
+#
+# cluster_name       = "capa"
+# key_pair           = "default"
+# private_subnet_ids = ["subnet-1234567890abcdef0","subnet-1234567890abcdef0","subnet-1234567890abcdef0"]
+# public_subnet_ids  = ["subnet-1234567890abcdef0","subnet-1234567890abcdef0","subnet-1234567890abcdef0"]
+# security_group_ids = ["sg-1234567890abcdef0","sg-1234567890abcdef0"]
+# vpc_id             = "vpc-1234567890abcdef0"

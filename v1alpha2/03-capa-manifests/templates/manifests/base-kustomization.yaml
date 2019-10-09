@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- cluster.yaml
+%{ for controlplane_node in controlplane_nodes ~}
+- ${controlplane_node}.yaml
+%{ endfor ~}
+%{ for worker_node, replicas in worker_nodes ~}
+- machine-deployment-${worker_node}.yaml
+%{ endfor ~}

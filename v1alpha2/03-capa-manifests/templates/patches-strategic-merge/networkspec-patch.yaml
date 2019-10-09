@@ -1,0 +1,34 @@
+apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
+kind: AWSCluster
+metadata:
+  name: ${cluster_name}
+spec:
+  networkSpec:
+    vpc:
+      id: ${vpc_id}
+    subnets:
+%{ for subnet_id in subnet_ids ~}
+    - id: ${subnet_id}
+%{ endfor ~}
+%{ for controlplane_node in controlplane_nodes ~}
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
+kind: AWSMachine
+metadata:
+  name: ${cluster_name}-${controlplane_node}
+spec:
+  subnet:
+    id: ${private_subnet_ids[min(index(controlplane_nodes, controlplane_node), length(private_subnet_ids)-1)]}
+%{ endfor ~}
+%{ for worker_node, replicas in worker_nodes ~}
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
+kind: AWSMachineTemplate
+metadata:
+  name: ${cluster_name}-${worker_node}
+spec:
+  template:
+    spec:
+      subnet:
+        id: ${private_subnet_ids[min(index(keys(worker_nodes), worker_node), length(private_subnet_ids)-1)]}
+%{ endfor ~}

@@ -1,0 +1,26 @@
+%{ for controlplane_node in controlplane_nodes ~}
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
+kind: AWSMachine
+metadata:
+  name: ${cluster_name}-${controlplane_node}
+spec:
+  additionalSecurityGroups:
+%{ for security_group_id in security_group_ids ~}
+  - id: ${security_group_id}
+%{ endfor ~}
+%{ endfor ~}
+%{ for worker_node, replicas in worker_nodes ~}
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
+kind: AWSMachineTemplate
+metadata:
+  name: ${cluster_name}-${worker_node}
+spec:
+  template:
+    spec:
+      additionalSecurityGroups:
+%{ for security_group_id in security_group_ids ~}
+      - id: ${security_group_id}
+%{ endfor ~}
+%{ endfor ~}

@@ -1,0 +1,51 @@
+apiVersion: cluster.x-k8s.io/v1alpha2
+kind: MachineDeployment
+metadata:
+  name: ${cluster_name}-${worker_name}
+  labels:
+    cluster.x-k8s.io/cluster-name: ${cluster_name}
+spec:
+  replicas: ${replicas}
+  selector:
+    matchLabels:
+      cluster.x-k8s.io/cluster-name: ${cluster_name}
+  template:
+    metadata:
+      labels:
+        cluster.x-k8s.io/cluster-name: ${cluster_name}
+    spec:
+      version: "${k8s_version}"
+      bootstrap:
+        configRef:
+          name: ${cluster_name}-${worker_name}
+          apiVersion: bootstrap.cluster.x-k8s.io/v1alpha2
+          kind: KubeadmConfigTemplate
+      infrastructureRef:
+        name: ${cluster_name}-${worker_name}
+        apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
+        kind: AWSMachineTemplate
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
+kind: AWSMachineTemplate
+metadata:
+  name: ${cluster_name}-${worker_name}
+spec:
+  template:
+    spec:
+      instanceType: ${worker_instance_type}
+      iamInstanceProfile: "nodes.cluster-api-provider-aws.sigs.k8s.io"
+      rootDeviceSize: ${root_device_size}
+      sshKeyName: ${ec2_key_pair}
+---
+apiVersion: bootstrap.cluster.x-k8s.io/v1alpha2
+kind: KubeadmConfigTemplate
+metadata:
+  name: ${cluster_name}-${worker_name}
+spec:
+  template:
+    spec:
+      joinConfiguration:
+        nodeRegistration:
+          name: '{{ ds.meta_data.hostname }}'
+          kubeletExtraArgs:
+            cloud-provider: aws

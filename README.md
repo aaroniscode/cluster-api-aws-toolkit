@@ -54,5 +54,6 @@ clusterawsadm alpha bootstrap create-stack
 
 ## How to Use
 
-1. [Setup and Configure the Management Cluster](/v1alpha2/01-capa-controllers/README.md)
+1. [Setup the Management Cluster](/v1alpha2/01-capa-controllers/README.md)
 2. [Create AWS Resources for CAPA](/v1alpha2/02-aws-resources/README.md)
+3. [Customize and Apply CAPA Manifests](/v1alpha2/03-capa-manifests/README.md)
