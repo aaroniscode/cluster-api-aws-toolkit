@@ -3,6 +3,10 @@ variable "cluster_name" {
   description = "name of the cluster"
 }
 
+variable "cni" {
+  default = "calico"
+}
+
 variable "domain_name" {
   default = "example.com"
   description = "domain name suffix"

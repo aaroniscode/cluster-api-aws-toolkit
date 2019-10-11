@@ -1,5 +1,7 @@
 variable "cluster_name" {}
 
+variable "cni" {}
+
 variable "key_pair" {}
 
 variable "private_subnet_ids" {}

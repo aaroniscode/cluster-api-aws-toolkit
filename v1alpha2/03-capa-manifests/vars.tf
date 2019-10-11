@@ -6,6 +6,10 @@ variable "cluster_name" {
   default = "capa"
 }
 
+variable "cni" {
+  default = "calico"
+}
+
 variable "controlplane_instance_type" {
   default = "t3.medium"
 }

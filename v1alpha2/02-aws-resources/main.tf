@@ -29,6 +29,7 @@ module "vpc_auto_tfvars" {
   source = "./vpc_auto_tfvars"
 
   cluster_name       = "${var.cluster_name}"
+  cni                = "${var.cni}"
   key_pair           = "${var.key_pair}"
   private_subnet_ids = "${module.vpc.private_subnet_ids}"
   public_subnet_ids  = "${module.vpc.public_subnet_ids}"

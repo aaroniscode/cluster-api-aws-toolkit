@@ -74,6 +74,7 @@ resource "local_file" "base_kustomization" {
 resource "local_file" "root_kustomization" {
   content = templatefile("${path.module}/templates/root-kustomization.yaml", {
     cluster_name                = "${var.cluster_name}"
+    cni                         = "${var.cni}"
     controlplane_nodes          = "${var.controlplane_nodes}"
     strategic_merge_patch_dir   = "${local.strategic_merge_patch_dir}"
     strategic_merge_patch_files = "${local.strategic_merge_patch_files}"

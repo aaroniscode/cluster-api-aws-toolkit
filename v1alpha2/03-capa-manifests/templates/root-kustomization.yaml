@@ -8,6 +8,10 @@ patchesStrategicMerge:
 %{ for strategic_merge_patch_file in strategic_merge_patch_files ~}
 - ./patches-strategic-merge/${strategic_merge_patch_file}
 %{ endfor ~}
+%{ if cni == "amazon-vpc" ~}
+- ./patches-strategic-merge/kubelet-node-ip-patch.yaml
+%{ endif ~}
+
 
 # For future use
 # patchesJson6902:

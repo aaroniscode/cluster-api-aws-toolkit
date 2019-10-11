@@ -1,6 +1,7 @@
 resource "local_file" "vpc_tfvars" {
   content  = templatefile("${path.module}/vpc.tfvars", {
     cluster_name       = "${var.cluster_name}"
+    cni                = "${var.cni}"
     key_pair           = "${var.key_pair}"
     private_subnet_ids = format("%#v", "${var.private_subnet_ids}"),
     public_subnet_ids  = format("%#v", "${var.public_subnet_ids}"),
