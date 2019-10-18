@@ -16,7 +16,9 @@ spec:
     categories:
     - cluster-api
     kind: AWSCluster
+    listKind: AWSClusterList
     plural: awsclusters
+    singular: awscluster
   scope: Namespaced
   subresources:
     status: {}
@@ -45,6 +47,15 @@ spec:
               description: AdditionalTags is an optional set of tags to add to AWS
                 resources managed by the AWS provider, in addition to the ones added
                 by default.
+              type: object
+            controlPlaneLoadBalancer:
+              description: ControlPlaneLoadBalancer is optional configuration for
+                customizing control plane behavior
+              properties:
+                scheme:
+                  description: Scheme sets the scheme of the load balancer (defaults
+                    to Internet-facing)
+                  type: string
               type: object
             networkSpec:
               description: NetworkSpec encapsulates all things related to AWS network.
@@ -408,7 +419,9 @@ spec:
     categories:
     - cluster-api
     kind: AWSMachine
+    listKind: AWSMachineList
     plural: awsmachines
+    singular: awsmachine
   scope: Namespaced
   subresources:
     status: {}
@@ -667,7 +680,9 @@ spec:
     categories:
     - cluster-api
     kind: AWSMachineTemplate
+    listKind: AWSMachineTemplateList
     plural: awsmachinetemplates
+    singular: awsmachinetemplate
   scope: Namespaced
   validation:
     openAPIV3Schema:
@@ -1087,17 +1102,19 @@ spec:
       containers:
       - args:
         - --enable-leader-election
-        - --awsmachine-concurrency=10
         env:
         - name: AWS_SHARED_CREDENTIALS_FILE
           value: /home/.aws/credentials
-        image: us.gcr.io/k8s-artifacts-prod/cluster-api-aws/cluster-api-aws-controller:v0.4.1
+        image: us.gcr.io/k8s-artifacts-prod/cluster-api-aws/cluster-api-aws-controller:v0.4.3
         imagePullPolicy: IfNotPresent
         name: manager
         volumeMounts:
         - mountPath: /home/.aws
           name: credentials
       terminationGracePeriodSeconds: 10
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/master
       volumes:
       - name: credentials
         secret:

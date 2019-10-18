@@ -16,7 +16,9 @@ spec:
     categories:
     - cluster-api
     kind: KubeadmConfig
+    listKind: KubeadmConfigList
     plural: kubeadmconfigs
+    singular: kubeadmconfig
   scope: Namespaced
   subresources:
     status: {}
@@ -835,7 +837,9 @@ spec:
     categories:
     - cluster-api
     kind: KubeadmConfigTemplate
+    listKind: KubeadmConfigTemplateList
     plural: kubeadmconfigtemplates
+    singular: kubeadmconfigtemplate
   scope: Namespaced
   validation:
     openAPIV3Schema:
@@ -1862,7 +1866,10 @@ spec:
         - --metrics-addr=127.0.0.1:8080
         - --v=4
         - --enable-leader-election
-        image: us.gcr.io/k8s-artifacts-prod/capi-kubeadm/cluster-api-kubeadm-controller:v0.1.1
+        image: us.gcr.io/k8s-artifacts-prod/capi-kubeadm/cluster-api-kubeadm-controller:v0.1.4
         imagePullPolicy: Always
         name: manager
       terminationGracePeriodSeconds: 10
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/master
