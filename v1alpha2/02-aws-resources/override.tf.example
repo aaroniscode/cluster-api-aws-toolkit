@@ -1,6 +1,9 @@
-# Uncomment out the 3 lines below if using the Amazon VPC CNI
+# Uncomment out the 6 lines below if using the Amazon VPC CNI
 # module "amazon_vpc_cni" {
 #   source = "./amazon_vpc_cni"
+# }
+# variable "cni" {
+#   default = "amazon-vpc"
 # }
 
 # Uncomment out the 3 lines below to use the AWS ALB Ingress Controller
