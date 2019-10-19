@@ -30,17 +30,31 @@ variable k8s_image_repository {
   default = null
 }
 
-variable "private_subnet_ids" {}
+variable options {
+  default = {
+    "sa_token_volume_projection" = "disabled"
+  }
+}
 
-variable "public_subnet_ids" {}
+variable "private_subnet_ids" {
+  default = []
+}
+
+variable "public_subnet_ids" {
+  default = []
+}
 
 variable "root_device_size" {
   default = 20
 }
 
-variable "security_group_ids" {}
+variable "security_group_ids" {
+  default = []
+}
 
-variable "vpc_id" {}
+variable "vpc_id" {
+  default = ""
+}
 
 variable "worker_instance_type" {
   default = "t3.medium"

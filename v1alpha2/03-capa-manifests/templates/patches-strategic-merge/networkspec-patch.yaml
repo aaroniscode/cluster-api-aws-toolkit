@@ -1,3 +1,4 @@
+%{ if subnet_ids != [] ~}
 apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
 kind: AWSCluster
 metadata:
@@ -32,3 +33,4 @@ spec:
       subnet:
         id: ${private_subnet_ids[min(index(keys(worker_nodes), worker_node), length(private_subnet_ids)-1)]}
 %{ endfor ~}
+%{ endif ~}

@@ -5,13 +5,21 @@ bases:
 - ./manifests
 
 patchesStrategicMerge:
-%{ for strategic_merge_patch_file in strategic_merge_patch_files ~}
-- ./patches-strategic-merge/${strategic_merge_patch_file}
-%{ endfor ~}
+%{ if vpc_id != "" ~}
+- ./patches-strategic-merge/networkspec-patch.yaml
+%{ endif ~}
+%{ if security_group_ids != [] ~}
+- ./patches-strategic-merge/additional-security-groups-patch.yaml
+%{ endif ~}
+%{ if ami_id != "" ~}
+- ./patches-strategic-merge/ami-patch.yaml
+%{ endif ~}
 %{ if cni == "amazon-vpc" ~}
 - ./patches-strategic-merge/kubelet-node-ip-patch.yaml
 %{ endif ~}
-
+%{ if options.sa_token_volume_projection == "enabled" ~}
+- ./patches-strategic-merge/sa-token-vol-proj-patch.yaml
+%{ endif ~}
 
 # For future use
 # patchesJson6902:

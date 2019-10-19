@@ -1,4 +1,14 @@
 #
+# Default cluster name is capa.
+#
+# cluster_name = "capa"
+
+#
+# Replace with the name of a preexisting EC2 key pair
+#
+key_pair = "default"
+
+#
 # Default is a single control plane node.
 #
 # controlplane_nodes = ["controlplane"]
@@ -15,6 +25,14 @@
 #
 # controlplane_instance_type = "t3.large"
 # worker_instance_type = "t3.large"
+
+#
+# Options
+#
+
+# options = {
+#   sa_token_volume_projection = "enabled",
+# }
 
 #
 # HA Examples
@@ -69,8 +87,6 @@
 #
 # If using an existing VPC, uncomment and set
 #
-# cluster_name       = "capa"
-# key_pair           = "default"
 # private_subnet_ids = ["subnet-1234567890abcdef0","subnet-1234567890abcdef0","subnet-1234567890abcdef0"]
 # public_subnet_ids  = ["subnet-1234567890abcdef0","subnet-1234567890abcdef0","subnet-1234567890abcdef0"]
 # security_group_ids = ["sg-1234567890abcdef0","sg-1234567890abcdef0"]

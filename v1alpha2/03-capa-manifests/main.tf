@@ -1,11 +1,12 @@
 data "aws_region" "current" {}
 
 locals {
-  manifest_template_dir     = "${path.module}/templates/manifests"
-  strategic_merge_patch_dir = "${path.module}/templates/patches-strategic-merge"
+  manifest_dir          = "${path.module}/manifests"
+  template_dir          = "${path.module}/templates"
+  manifest_template_dir = "${local.template_dir}/manifests"
 
-  strategic_merge_patch_files = fileset("${local.strategic_merge_patch_dir}", "*")
-  json6902_patch_files        = fileset("${path.module}/templates/patches-json6902", "*")
+  strategic_merge_patch_files = fileset("${local.template_dir}/patches-strategic-merge", "*")
+  json6902_patch_files        = fileset("${local.template_dir}/patches-json6902", "*")
 }
 
 resource "local_file" "cluster" {
@@ -14,7 +15,7 @@ resource "local_file" "cluster" {
     cluster_name = "${var.cluster_name}"
     ec2_key_pair = "${var.key_pair}"
   })
-  filename = "${path.module}/manifests/cluster.yaml"
+  filename = "${local.manifest_dir}/cluster.yaml"
   file_permission = "0644"
 }
 
@@ -27,7 +28,7 @@ resource "local_file" "controlplane_init" {
     k8s_version                = "${var.k8s_version}"
     root_device_size           = "${var.root_device_size}"
   })
-  filename = "${path.module}/manifests/${element(var.controlplane_nodes, 0)}.yaml"
+  filename = "${local.manifest_dir}/${element(var.controlplane_nodes, 0)}.yaml"
   file_permission = "0644"
 }
 
@@ -42,7 +43,7 @@ resource "local_file" "controlplane_join" {
     k8s_version                = "${var.k8s_version}"
     root_device_size           = "${var.root_device_size}"
   })
-  filename = "${path.module}/manifests/${each.value}.yaml"
+  filename = "${local.manifest_dir}/${each.value}.yaml"
   file_permission = "0644"
 }
 
@@ -58,7 +59,7 @@ resource "local_file" "machine_deployment" {
     worker_instance_type = "${var.worker_instance_type}"
     worker_name          = "${each.key}"
   })
-  filename = "${path.module}/manifests/machine-deployment-${each.key}.yaml"
+  filename = "${local.manifest_dir}/machine-deployment-${each.key}.yaml"
   file_permission = "0644"
 }
 
@@ -67,17 +68,18 @@ resource "local_file" "base_kustomization" {
     controlplane_nodes = "${var.controlplane_nodes}"
     worker_nodes       = "${var.worker_nodes}"
   })
-  filename = "${path.module}/manifests/kustomization.yaml"
+  filename = "${local.manifest_dir}/kustomization.yaml"
   file_permission = "0644"
 }
 
 resource "local_file" "root_kustomization" {
   content = templatefile("${path.module}/templates/root-kustomization.yaml", {
-    cluster_name                = "${var.cluster_name}"
-    cni                         = "${var.cni}"
-    controlplane_nodes          = "${var.controlplane_nodes}"
-    strategic_merge_patch_dir   = "${local.strategic_merge_patch_dir}"
-    strategic_merge_patch_files = "${local.strategic_merge_patch_files}"
+    ami_id             = "${var.ami_id}"
+    cni                = "${var.cni}"
+    controlplane_nodes = "${var.controlplane_nodes}"
+    options            = "${var.options}"
+    security_group_ids = "${var.security_group_ids}"
+    vpc_id             = "${var.vpc_id}"
   })
   filename = "${path.module}/kustomization.yaml"
   file_permission = "0644"
@@ -86,7 +88,7 @@ resource "local_file" "root_kustomization" {
 resource "local_file" "strategic_merge_patches" {
   for_each = local.strategic_merge_patch_files
 
-  content = templatefile("${path.module}/templates/patches-strategic-merge/${each.value}", {
+  content = templatefile("${local.template_dir}/patches-strategic-merge/${each.value}", {
     ami_id                = "${var.ami_id}"
     controlplane_nodes    = "${var.controlplane_nodes}"
     cluster_name          = "${var.cluster_name}"
@@ -106,14 +108,14 @@ resource "local_file" "strategic_merge_patches" {
 # resource "local_file" "json6902_patches" {
 #   for_each = local.json6902_patch_files
 
-#   content = templatefile("${path.module}/templates/patches-json6902/${each.value}", {
+#   content = templatefile("${local.template_dir}/patches-json6902/${each.value}", {
 #   })
 #   filename = "${path.module}/patches-json6902/${each.value}"
 #   file_permission = "0644"
 # }
 
 resource "local_file" "get_kubeconfig" {
-  content = templatefile("${path.module}/templates/get_kubeconfig.sh", {
+  content = templatefile("${local.template_dir}/get_kubeconfig.sh", {
     cluster_name = "${var.cluster_name}"
     path         = "${abspath(path.root)}"
   })
@@ -122,7 +124,7 @@ resource "local_file" "get_kubeconfig" {
 }
 
 resource "local_file" "set_kubeconfig" {
-  content = templatefile("${path.module}/templates/set_kubeconfig.sh", {
+  content = templatefile("${local.template_dir}/set_kubeconfig.sh", {
     cluster_name = "${var.cluster_name}"
     path         = "${abspath(path.root)}"
   })

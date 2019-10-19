@@ -1,0 +1,12 @@
+---
+apiVersion: bootstrap.cluster.x-k8s.io/v1alpha2
+kind: KubeadmConfig
+metadata:
+  name: ${cluster_name}-${controlplane_nodes[0]}
+spec:
+  clusterConfiguration:
+    apiServer:
+      extraArgs:
+        api-audiences: api
+        service-account-signing-key-file: /etc/kubernetes/pki/sa.key
+        service-account-issuer: api
