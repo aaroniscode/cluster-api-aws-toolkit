@@ -43,7 +43,7 @@ module "vpc_auto_tfvars" {
 #
 
 module "amazon_vpc_cni" {
-  source = "./amazon_vpc_cni_disabled"
+  source = "./disabled"
 
   cluster_name = "${var.cluster_name}"
   vpc_id       = "${module.vpc.vpc_id}"
