@@ -17,7 +17,10 @@ patchesStrategicMerge:
 %{ if cni == "amazon-vpc" ~}
 - ./patches-strategic-merge/kubelet-node-ip-patch.yaml
 %{ endif ~}
-%{ if options.sa_token_volume_projection == "enabled" ~}
+%{ if options.admission_controllers != "" ~}
+- ./patches-strategic-merge/admission-controllers-patch.yaml
+%{ endif ~}
+%{ if options.sa_token_volume_projection != "disabled" ~}
 - ./patches-strategic-merge/sa-token-vol-proj-patch.yaml
 %{ endif ~}
 

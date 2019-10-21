@@ -30,7 +30,15 @@ key_pair = "default"
 # Options
 #
 
+# Defaults
 # options = {
+#   admission_controllers      = ""
+#   sa_token_volume_projection = "",
+# }
+
+# Examples
+# options = {
+#   admission_controllers      = "PodSecurityPolicy"
 #   sa_token_volume_projection = "enabled",
 # }
 

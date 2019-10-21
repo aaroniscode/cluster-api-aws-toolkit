@@ -94,6 +94,7 @@ resource "local_file" "strategic_merge_patches" {
     cluster_name          = "${var.cluster_name}"
     k8s_image_repository  = "${var.k8s_image_repository}"
     k8s_version           = "${var.k8s_version}"
+    options               = "${var.options}"
     private_subnet_ids    = "${var.private_subnet_ids}"
     security_group_ids    = "${var.security_group_ids}"
     subnet_ids            = "${concat(var.public_subnet_ids, var.private_subnet_ids)}"

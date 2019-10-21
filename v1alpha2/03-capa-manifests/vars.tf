@@ -32,7 +32,8 @@ variable k8s_image_repository {
 
 variable options {
   default = {
-    "sa_token_volume_projection" = "disabled"
+    admission_controllers      = ""
+    sa_token_volume_projection = ""
   }
 }
 
