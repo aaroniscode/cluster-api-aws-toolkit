@@ -1780,7 +1780,7 @@ spec:
         - --enable-leader-election
         command:
         - /manager
-        image: us.gcr.io/k8s-artifacts-prod/cluster-api/cluster-api-controller:v0.2.6
+        image: us.gcr.io/k8s-artifacts-prod/cluster-api/cluster-api-controller:v0.2.7
         imagePullPolicy: IfNotPresent
         name: manager
         resources:

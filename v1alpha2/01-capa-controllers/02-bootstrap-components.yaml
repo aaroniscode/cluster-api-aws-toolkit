@@ -1866,7 +1866,7 @@ spec:
         - --metrics-addr=127.0.0.1:8080
         - --v=4
         - --enable-leader-election
-        image: us.gcr.io/k8s-artifacts-prod/capi-kubeadm/cluster-api-kubeadm-controller:v0.1.4
+        image: us.gcr.io/k8s-artifacts-prod/capi-kubeadm/cluster-api-kubeadm-controller:v0.1.5
         imagePullPolicy: Always
         name: manager
       terminationGracePeriodSeconds: 10
