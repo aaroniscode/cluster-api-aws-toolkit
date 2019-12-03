@@ -20,7 +20,7 @@ patchesStrategicMerge:
 %{ if options.admission_controllers != "" ~}
 - ./patches-strategic-merge/admission-controllers-patch.yaml
 %{ endif ~}
-%{ if options.sa_token_volume_projection != "disabled" ~}
+%{ if options.sa_token_volume_projection == "enabled" ~}
 - ./patches-strategic-merge/sa-token-vol-proj-patch.yaml
 %{ endif ~}
 
