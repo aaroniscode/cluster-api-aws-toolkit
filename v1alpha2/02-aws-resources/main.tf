@@ -49,10 +49,6 @@ module "amazon_vpc_cni" {
   vpc_id       = "${module.vpc.vpc_id}"
 }
 
-module "aws_alb_ingress" {
-  source = "./disabled"
-}
-
 module "vpc_endpoints" {
   source = "./disabled"
 

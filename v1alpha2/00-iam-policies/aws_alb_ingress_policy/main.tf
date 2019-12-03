@@ -1,14 +1,10 @@
-data "aws_iam_role" "nodes" {
-  name = "nodes.cluster-api-provider-aws.sigs.k8s.io"
-}
-
 resource "aws_iam_role_policy_attachment" "attach" {
-  role       = "${data.aws_iam_role.nodes.name}"
+  role       = "${var.iam_role}"
   policy_arn = "${aws_iam_policy.policy.arn}"
 }
 
 resource "aws_iam_policy" "policy" {
-  name        = "${var.name}"
+  name        = "${var.alb_iam_policy_name}"
   description = "Policy required by AWS ALB Ingress Controller"
 
   policy = <<EOF

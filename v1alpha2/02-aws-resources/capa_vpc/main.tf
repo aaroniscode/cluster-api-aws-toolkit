@@ -84,7 +84,7 @@ resource "aws_nat_gateway" "nat" {
 }
 
 resource "aws_route_table" "private" {
-  for_each = var.public_subnet_numbers
+  for_each = var.private_subnet_numbers
 
   vpc_id = "${aws_vpc.vpc.id}"
 
@@ -99,7 +99,7 @@ resource "aws_route_table" "private" {
 }
 
 resource "aws_route_table_association" "private" {
-  for_each = var.public_subnet_numbers
+  for_each = var.private_subnet_numbers
 
   subnet_id      = "${aws_subnet.private[each.key].id}"
   route_table_id = "${aws_route_table.private[each.key].id}"
