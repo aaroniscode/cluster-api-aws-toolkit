@@ -1,0 +1,38 @@
+regions:
+- us-west-2
+
+account-blacklist:
+- "999999999999" # production
+
+accounts:
+  "<your-account-id>": # <alias-for-your-account-id>
+
+resource-types:
+  targets:
+    - EC2Address
+    - EC2Instance
+    - EC2InternetGatewayAttachment
+    - EC2InternetGateway
+    - EC2NATGateway
+    - EC2NetworkInterface
+    - EC2RouteTable
+    - EC2SecurityGroup
+    - EC2Snapshot
+    - EC2Subnet
+    - EC2Volume
+    - EC2VPC
+    - ELB
+    - EC2Image
+  excludes:
+    - IAM*
+    - IAMPolicy
+    - CloudTrailTrail
+    - ConfigServiceConfigurationRecorder
+    - ConfigServiceConfigRule
+    - ConfigServiceDeliveryChannel
+    - IAM*
+    - Config*
+    - CloudTrail*
+    - CloudFormation*
+    - S3*
+    - EC2KeyPair

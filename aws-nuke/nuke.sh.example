@@ -1,0 +1,1 @@
+aws-nuke -c nuke.yaml --profile <your-profile> --force --no-dry-run
