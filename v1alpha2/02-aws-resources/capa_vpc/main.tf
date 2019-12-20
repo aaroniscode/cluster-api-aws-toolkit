@@ -1,27 +1,27 @@
 resource "aws_vpc" "vpc" {
-  cidr_block = "${var.vpc_cidr}"
+  cidr_block = var.vpc_cidr
 
   tags = {
-    Name = "${var.cluster_name}"
+    Name = var.cluster_name
   }
 }
 
 resource "aws_vpc_dhcp_options" "dopt" {
   count = var.enable_custom_dhcp_options ? 1 : 0
 
-  domain_name          = "${var.domain_name}"
-  domain_name_servers  = "${var.domain_name_servers}"
+  domain_name          = var.domain_name
+  domain_name_servers  = var.domain_name_servers
 
   tags = {
-    Name = "${var.cluster_name}"
+    Name = var.cluster_name
   }
 }
 
 resource "aws_vpc_dhcp_options_association" "dopt_assoc" {
   count = var.enable_custom_dhcp_options ? 1 : 0
 
-  vpc_id          = "${aws_vpc.vpc.id}"
-  dhcp_options_id = "${aws_vpc_dhcp_options.dopt[0].id}"
+  vpc_id          = aws_vpc.vpc.id
+  dhcp_options_id = aws_vpc_dhcp_options.dopt[0].id
 }
 
 data "aws_region" "current" {}
@@ -55,10 +55,10 @@ resource "aws_subnet" "public" {
 }
 
 resource "aws_internet_gateway" "ig" {
-  vpc_id = "${aws_vpc.vpc.id}"
+  vpc_id = aws_vpc.vpc.id
 
   tags = {
-    Name = "${var.cluster_name}"
+    Name = var.cluster_name
   }
 }
 
@@ -75,8 +75,8 @@ resource "aws_eip" "nat" {
 resource "aws_nat_gateway" "nat" {
   for_each = var.public_subnet_numbers
 
-  allocation_id = "${aws_eip.nat[each.key].id}"
-  subnet_id = "${aws_subnet.public[each.key].id}"
+  allocation_id = aws_eip.nat[each.key].id
+  subnet_id = aws_subnet.public[each.key].id
 
   tags = {
     Name = "${var.cluster_name}-nat-${each.key}"
@@ -86,11 +86,11 @@ resource "aws_nat_gateway" "nat" {
 resource "aws_route_table" "private" {
   for_each = var.private_subnet_numbers
 
-  vpc_id = "${aws_vpc.vpc.id}"
+  vpc_id = aws_vpc.vpc.id
 
   route {
     cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = "${aws_nat_gateway.nat[each.key].id}"
+    nat_gateway_id = aws_nat_gateway.nat[each.key].id
   }
 
   tags = {
@@ -101,18 +101,18 @@ resource "aws_route_table" "private" {
 resource "aws_route_table_association" "private" {
   for_each = var.private_subnet_numbers
 
-  subnet_id      = "${aws_subnet.private[each.key].id}"
-  route_table_id = "${aws_route_table.private[each.key].id}"
+  subnet_id      = aws_subnet.private[each.key].id
+  route_table_id = aws_route_table.private[each.key].id
 }
 
 resource "aws_route_table" "public" {
   for_each = var.public_subnet_numbers
 
-  vpc_id = "${aws_vpc.vpc.id}"
+  vpc_id = aws_vpc.vpc.id
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = "${aws_internet_gateway.ig.id}"
+    gateway_id = aws_internet_gateway.ig.id
   }
 
   tags = {
@@ -123,6 +123,6 @@ resource "aws_route_table" "public" {
 resource "aws_route_table_association" "public" {
   for_each = var.public_subnet_numbers
 
-  subnet_id      = "${aws_subnet.public[each.key].id}"
-  route_table_id = "${aws_route_table.public[each.key].id}"
+  subnet_id      = aws_subnet.public[each.key].id
+  route_table_id = aws_route_table.public[each.key].id
 }
